@@ -38,11 +38,12 @@ class Promise {
      * 用MutationObserver生成浏览器的nextTick，nodejs端则用process.nextTick
      */
     static nextTick(nextTickHandler) {
+        // setTimeout(nextTickHandler, 0);
         if (isInBrowser) {
             if (typeof MutationObserver !== 'undefined') { // 首选 MutationObserver 
-                var counter = 1;
-                var observer = new MutationObserver(nextTickHandler); // 声明 MO 和回调函数
-                var textNode = document.createTextNode(counter);
+                let counter = 1;
+                const observer = new MutationObserver(nextTickHandler); // 声明 MO 和回调函数
+                const textNode = document.createTextNode(counter);
                 observer.observe(textNode, { // 监听 textNode 这个文本节点
                     characterData: true // 一旦文本改变则触发回调函数 nextTickHandler
                 });
@@ -117,7 +118,7 @@ class Promise {
         if (!Array.isArray(arr)) {
             throw new TypeError('undefined is not iterable.');
         }
-        let count = arr.length;
+        const count = arr.length;
         if (count === 0) {
             return new Promise(() => { }); //返回一个永远pending的promise，这是跟all等不一样的地方
         }
@@ -129,7 +130,7 @@ class Promise {
     }
 
     static deferred() {
-        let result = {};
+        const result = {};
         result.promise = new Promise((resolve, reject) => {
             result.resolve = resolve;
             result.reject = reject;
@@ -205,7 +206,7 @@ class Promise {
                 if (x && typeof x === 'object' || typeof x === 'function') {
                     let used; //PromiseA+2.3.3.3.3 只能调用一次
                     try {
-                        let then = x.then;
+                        const then = x.then;
                         if (typeof then === 'function') {
                             //PromiseA+2.3.3
                             then.call(x, (y) => {
@@ -238,7 +239,7 @@ class Promise {
             };
 
             const onResolvedFunc = function (val) {
-                var cb = function () {
+                const cb = function () {
                     try {
                         if (typeof onFulfilled !== 'function') { // 如果成功了，它不是个函数，意味着不能处理，则把当前Promise的状态继续向后传递
                             resolve(val);
@@ -254,7 +255,7 @@ class Promise {
             };
 
             const onRejectedFunc = function (val) {
-                var cb = function () {
+                const cb = function () {
                     try {
                         if (typeof onRejected !== 'function') { // 如果失败了，它不是个函数，意味着不能处理，则把当前Promise的状态继续向后传递
                             reject(val);
@@ -310,3 +311,9 @@ class Promise {
 }
 
 module.exports = Promise;
+
+// const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+// wait().then(() => console.log(4));
+// Promise.resolve().then(() => console.log(2)).then(() => console.log(3));
+// console.log(1); // 1, 2, 3, 4
