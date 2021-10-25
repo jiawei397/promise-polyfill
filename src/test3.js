@@ -87,9 +87,9 @@ class Promise {
 }
 
 new Promise((resolve, reject) => {
-    setTimeout(() => {
-        resolve('1');
-    }, 0);
+    // setTimeout(() => {
+    resolve('1');
+    // }, 0);
 }).then(function (data) {
     console.log('--ok--', data)
     return '2';
