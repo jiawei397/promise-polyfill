@@ -26,6 +26,16 @@ const nextTick = function (nextTickHandler) {
 };
 
 class Promise {
+
+    static deferred() {
+        const result = {};
+        result.promise = new Promise((resolve, reject) => {
+            result.resolve = resolve;
+            result.reject = reject;
+        });
+        return result;
+    }
+
     constructor(fn) {
         this.status = PENDING;
         this.value = undefined;
@@ -113,15 +123,18 @@ class Promise {
     catch(onRejected) {
         return this.then(null, onRejected);
     }
+
+
 }
 
-setTimeout(function () {
-    console.log('4')
-});
-new Promise((resolve, reject) => {
-    console.log('1');
-    resolve();
-}).then(function () {
-    console.log('3')
-});
-console.log('2');
+module.exports = Promise;
+// setTimeout(function () {
+//     console.log('4')
+// });
+// new Promise((resolve, reject) => {
+//     console.log('1');
+//     resolve();
+// }).then(function () {
+//     console.log('3')
+// });
+// console.log('2');
