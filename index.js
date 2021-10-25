@@ -188,6 +188,17 @@ class Promise {
      */
     handleReject(err) {
         if (this.status !== PENDING) {
+            /**
+             * 这种情况抛出的异常不会处理。官方都不会打印错误。
+             * new Promise((resolve) => {
+             *       resolve('123');
+             *       throw new Error('haha');
+             *  }).then(console.log)
+             *    .catch(err => {
+             *      console.error('---', err);
+             *     })
+             */
+            console.error(err);
             return;
         }
         this.status = REJECTED;
@@ -317,3 +328,11 @@ module.exports = Promise;
 // wait().then(() => console.log(4));
 // Promise.resolve().then(() => console.log(2)).then(() => console.log(3));
 // console.log(1); // 1, 2, 3, 4
+
+new Promise((resolve) => {
+    resolve('123');
+    throw new Error('haha');
+}).then(console.log)
+    .catch(err => {
+        console.error('---', err);
+    })
