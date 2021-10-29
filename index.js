@@ -322,17 +322,3 @@ class Promise {
 }
 
 module.exports = Promise;
-
-// const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
-
-// wait().then(() => console.log(4));
-// Promise.resolve().then(() => console.log(2)).then(() => console.log(3));
-// console.log(1); // 1, 2, 3, 4
-
-new Promise((resolve) => {
-    resolve('123');
-    throw new Error('haha');
-}).then(console.log)
-    .catch(err => {
-        console.error('---', err);
-    })
